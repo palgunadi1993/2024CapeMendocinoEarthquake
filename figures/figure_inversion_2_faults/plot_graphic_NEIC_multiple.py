@@ -37,18 +37,18 @@ from scipy.interpolate import griddata  # type: ignore
 #
 # local modules
 #
-import wasp.fault_plane as pf
-import wasp.plane_management as pl_mng
-import wasp.seismic_tensor as tensor
-import wasp.shakemap_tools as shakemap
-import wasp.velocity_models as mv
-from wasp import get_outputs, load_ffm_model
-from wasp.plot_maps_NEIC import plot_map, set_map_cartopy
-from wasp.static2fsp import static_to_fsp
-from wasp.static2srf import static_to_srf
+import ffm.fault_plane as pf
+import ffm.plane_management as pl_mng
+import ffm.seismic_tensor as tensor
+import ffm.shakemap_tools as shakemap
+import ffm.velocity_models as mv
+from ffm import get_outputs, load_ffm_model
+from ffm.plot_maps_NEIC import plot_map, set_map_cartopy
+from ffm.static2fsp import static_to_fsp
+from ffm.static2srf import static_to_srf
 
-# from wasp.waveform_plots_NEIC import plot_waveform_fits
-from wasp.waveform_plots_NEIC import add_metadata
+# from ffm.waveform_plots_NEIC import plot_waveform_fits
+from ffm.waveform_plots_NEIC import add_metadata
 from typing import List, Literal, Optional, Union
 
 plt.rc("axes", titlesize=14)

@@ -4,14 +4,14 @@ import numpy as np
 import argparse
 
 parser = argparse.ArgumentParser(
-    description="prepare a velocity model from wasp, extracting from casc1.6 model"
+    description="prepare a velocity model from ffm, extracting from casc1.6 model"
 )
 parser.add_argument("lon", type=float, help="reference longitude (in absolute value)")
 args = parser.parse_args()
 
 
 # File path
-file_path = "data/casc1.6-velmdl.r1.1-n4.nc"
+file_path = "data/casc1.6-velmdl.r1.0-n4.nc"
 
 # Open the NetCDF file
 with Dataset(file_path, mode="r") as nc_file:

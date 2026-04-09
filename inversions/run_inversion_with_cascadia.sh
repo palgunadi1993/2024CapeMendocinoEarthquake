@@ -19,7 +19,7 @@ suffix=gps
 if [[ "$rerun_gps" == "y" ]]; then
   #we first run a auto inversion
   #rm -r 20241205184419
-  wasp model run $(pwd) auto_model -g data/cmtsolution -t gps -d data/Static_Data/
+  ffm model run $(pwd) auto_model -g data/cmtsolution -t gps -d data/Static_Data/
   cp 20241205184419/ffm.0/NP1/ ${myfolder}_$suffix -r
   rm -r 20241205184419
 
@@ -32,11 +32,11 @@ if [[ "$rerun_gps" == "y" ]]; then
   cp data/vel_model.txt ${myfolder}_$suffix
 
   cd ${myfolder}_${suffix}
-  #wasp model run $(pwd) manual_model_add_data
-  wasp manage velmodel-to-json $(pwd) vel_model.txt
-  wasp manage update-inputs $(pwd) -p -m -a
-  wasp model run $(pwd) manual_model_add_data
-  cp Solucion.txt plots
+  #ffm model run $(pwd) manual_model_add_data
+  ffm manage velmodel-to-json $(pwd) vel_model.txt
+  ffm manage update-inputs $(pwd) -p -m -a
+  ffm model run $(pwd) manual_model_add_data
+  cp Solution.txt plots
   cp modelling_summary.txt plots
   cd ..
 fi
@@ -47,21 +47,21 @@ if [[ "$rerun_gps_tele" == "y" ]]; then
   cd ${myfolder}_${suffix}
 
   echo "starting inv with teleseismics"
-  wasp model run $(pwd) manual_model_add_data -t body -t surf -d ../data/Teleseismic_Data/
-  wasp manage modify-dicts $(pwd) downweight surf -sc "DWPF:BHZ" -sc "MIDW:SH" -sc "HRV:SH" -sc "KBS:BHZ" -sc "KEV:BHZ"
-  wasp manage update-inputs $(pwd) -t surf
+  ffm model run $(pwd) manual_model_add_data -t body -t surf -d ../data/Teleseismic_Data/
+  ffm manage modify-dicts $(pwd) downweight surf -sc "DWPF:BHZ" -sc "MIDW:BHT" -sc "HRV:BHT" -sc "KBS:BHZ" -sc "KEV:BHZ"
+  ffm manage update-inputs $(pwd) -t surf
 
-  cp Solucion.txt plots
+  cp Solution.txt plots
   cp modelling_summary.txt plots
   mv plots plots_gps_tele
 
-  wasp process shift-match $(pwd) body -o auto
-  wasp process shift-match $(pwd) surf -o auto
-  wasp process remove-baseline $(pwd)
-  wasp manage update-inputs $(pwd) -t body -t surf
+  ffm process shift-match $(pwd) body -o auto
+  ffm process shift-match $(pwd) surf -o auto
+  ffm process remove-baseline $(pwd)
+  ffm manage update-inputs $(pwd) -t body -t surf
   echo "starting inv with teleseismics after shift-match"
-  wasp model run $(pwd) manual_model_add_data
-  cp Solucion.txt plots
+  ffm model run $(pwd) manual_model_add_data
+  cp Solution.txt plots
   cp modelling_summary.txt plots
   mv plots plots_gps_tele_shift_match
   cd ..
@@ -72,15 +72,15 @@ if [[ "$rerun_gps_tele_strong" == "y" ]]; then
   cp -r ${myfolder}_$suffix ${myfolder}_gps_tele_sm
   suffix=gps_tele_sm
   cd ${myfolder}_${suffix}
-  wasp model run $(pwd) manual_model_add_data -t strong -d ../data/StrongMotion_Data/
-  cp Solucion.txt plots
+  ffm model run $(pwd) manual_model_add_data -t strong -d ../data/StrongMotion_Data/
+  cp Solution.txt plots
   cp modelling_summary.txt plots
   mv plots plots_gps_tele_sm
   echo "done running inversion with strong motion"
 
   ../../submodules/seismic-waveform-factory/scripts/modify_wasp_strong_motion_waves.py ../input_data/waveforms_config.ini
-  wasp model run $(pwd) manual_model_add_data
-  cp Solucion.txt plots
+  ffm model run $(pwd) manual_model_add_data
+  cp Solution.txt plots
   cp modelling_summary.txt plots
   mv plots plots_gps_tele_sm_shorter
   cd ..
@@ -90,9 +90,9 @@ if [[ "$rerun_gps_tele_strong" == "y" ]]; then
   cp -r ${myfolder}_${suffix} ${myfolder}_gps_tl_sm2
   suffix=gps_tl_sm2
   cd ${myfolder}_${suffix}
-  wasp process shift-match $(pwd) strong -o auto
-  wasp model run $(pwd) manual_model_add_data
-  cp Solucion.txt plots
+  ffm process shift-match $(pwd) strong -o auto
+  ffm model run $(pwd) manual_model_add_data
+  cp Solution.txt plots
   cp modelling_summary.txt plots
   cd ..
   echo "done running inversion with strong motion (shorter + shift-match)"

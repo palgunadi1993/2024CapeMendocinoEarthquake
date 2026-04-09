@@ -9,7 +9,7 @@ print(df.keys())
 filtered_df = df[(df["Lon"] < -123.2) & (df["Lat"] > 39.75) & (df["Lat"] < 41.5)]
 
 # Define the output file
-output_file = "data/Static_Data/gps_data"
+output_file = "data/Static_Data/gnss_data"
 
 # Save to file with the same formatting
 with open(output_file, "w") as f:
